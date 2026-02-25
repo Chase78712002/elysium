@@ -1,30 +1,29 @@
 # Codename: Elysium
 
-# Goal: Top down online RPG prototype
+## Goal: 
+Top down online RPG prototype
 
-# Tech:
-
+## Tech:
 - Godot 4.6.1
 - Planned dedicated server on Vultr Seattle
 
-# Run Instruction:
-
+## Run Instruction:
 1. Open in Godot
 2. run Main scene
 
 ---
 
-# Current Output:
+## Current Output:
 
 Godot project scaffold
 
 Session ended while converting platformer template movement to top-down click-to-move; current script logs mouse input. Next session will implement target_position + velocity toward target.
 
-# Next Output:
+## Next Output:
 
 Local click to move
 
-# What exists now:
+## What exists now:
 
 - Output 0:
   - Main scene set.
