@@ -18,6 +18,8 @@
 
 Godot project scaffold
 
+Session ended while converting platformer template movement to top-down click-to-move; current script logs mouse input. Next session will implement target_position + velocity toward target.
+
 # Next Output:
 
 Local click to move
