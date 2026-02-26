@@ -1,14 +1,31 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-var target_pos
-func _physics_process(delta: float) -> void:
-	move_and_slide()
-	position += target_pos
+const SPEED: float = 300.0
+const ARRIVAL_DIST: float = 8.0
+
+var target_pos: Vector2 = Vector2.ZERO
+var has_target: bool = false
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		print("Viewport Resolution:", get_viewport().get_visible_rect().size)
-		target_pos = get_global_mouse_position()
-		print("Mouse sets to target pos:", target_pos)
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			target_pos = get_global_mouse_position()
+			has_target = true
+
+func _physics_process(delta: float) -> void:
+	if not has_target:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		
+	var dist = global_position.distance_to(target_pos)
+	if dist <= ARRIVAL_DIST:
+		velocity = Vector2.ZERO
+		has_target = false
+	else:
+		var dir = global_position.direction_to(target_pos)
+		velocity = dir * SPEED
+	
+	move_and_slide()
+		
