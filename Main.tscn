@@ -1,23 +1,13 @@
 [gd_scene format=3 uid="uid://b6rtx7q7b82xa"]
 
 [ext_resource type="Script" uid="uid://d0oafiepm3jxe" path="res://server.gd" id="1_r0du0"]
-[ext_resource type="Script" uid="uid://dfrtp75s0qnnu" path="res://player.gd" id="1_uu6xs"]
-[ext_resource type="Texture2D" uid="uid://cqyusu3a6k4fr" path="res://icon.svg" id="2_r0du0"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_cm0pq"]
-radius = 88.391174
 
 [node name="Node2D" type="Node2D" unique_id=395471888]
 position = Vector2(71, 19)
 script = ExtResource("1_r0du0")
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=78321696]
-position = Vector2(0, 1)
-script = ExtResource("1_uu6xs")
+[node name="Players" type="Node2D" parent="." unique_id=1005357585]
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1694671156]
-texture = ExtResource("2_r0du0")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=285456844]
-position = Vector2(0, 1)
-shape = SubResource("CircleShape2D_cm0pq")
+[node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=402875175]
+_spawnable_scenes = PackedStringArray("uid://ed7tic4vnf8n")
+spawn_path = NodePath("../Players")
