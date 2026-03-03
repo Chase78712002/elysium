@@ -55,8 +55,9 @@ func _on_player_connected(id: int)-> void:
 	var p := player_scene.instantiate()
 	p.name = str(id)
 	players.add_child(p)
+	p.position = Vector2(400,300)
 
-	print("Spawn Player: %s, Position: %s" % [p.name, p.global_position] )
+	print("Spawn Player: %s, Position: %s" % [p.name, p.position] )
 
 func _on_player_disconnected(id: int):
 	print("👋 peer disconnected:",id)

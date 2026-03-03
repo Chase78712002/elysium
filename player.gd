@@ -7,25 +7,28 @@ const ARRIVAL_DIST: float = 8.0
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 
-
-# func _ready() -> void:
-# 	$Camera2D.enabled = is_multiplayer_authority()
-
 func _enter_tree() -> void:
 	# Node name is the peer id (server sets this)
 	set_multiplayer_authority(int(name))
 
 
 func _input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			target_pos = get_global_mouse_position()
 			has_target = true
 
 func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+
 	if not has_target:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		return
 		
 	var dist = global_position.distance_to(target_pos)
 	if dist <= ARRIVAL_DIST:
