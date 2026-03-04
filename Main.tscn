@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://d0oafiepm3jxe" path="res://server.gd" id="1_r0du0"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_glv2v"]
+vertices = PackedVector2Array(1489.9766, -642.1172, 1487.0078, 879.8125, -1037.0234, 834.1719, -1040.9688, -672.8672)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1497, 890, -1047, 844, -1051, -683, 1500, -652)])
+
 [node name="Node2D" type="Node2D" unique_id=395471888]
 position = Vector2(71, 19)
 script = ExtResource("1_r0du0")
@@ -11,3 +16,7 @@ script = ExtResource("1_r0du0")
 [node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=402875175]
 _spawnable_scenes = PackedStringArray("uid://ed7tic4vnf8n")
 spawn_path = NodePath("../Players")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1940799262]
+position = Vector2(-35, 3)
+navigation_polygon = SubResource("NavigationPolygon_glv2v")
