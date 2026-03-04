@@ -39,4 +39,5 @@ Top down online RPG prototype
 - Output 3:
   - Two clients connect → each sees both players (as placeholders) moving.
 - Output 4:
-  - Fix collision that moves players.
+  - Fix collision that moves players by adding navigation agent.
+  - players separate softly via navigation avoidance.
