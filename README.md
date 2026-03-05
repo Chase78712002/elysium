@@ -41,3 +41,9 @@ Top down online RPG prototype
 - Output 4:
   - Fix collision that moves players by adding navigation agent.
   - players separate softly via navigation avoidance.
+- Output 5:
+  - Deploy headless server to Vultr and able to connect from different network
+    - Server running on Vultr
+    - UDP32100 opened (Vultr firewall + UFW)
+    - Client connected successfully from home and hotspot network
+    - Server running continuously via systemd
