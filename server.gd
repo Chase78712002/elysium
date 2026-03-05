@@ -11,7 +11,7 @@ func _ready() -> void:
 	if DisplayServer.get_name() == "headless":
 		start_server()
 	else:
-		connect_to_server("127.0.0.1")
+		connect_to_server("45.77.215.222")
 	
 func start_server() -> void:
 	var peer := ENetMultiplayerPeer.new()
