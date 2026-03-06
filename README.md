@@ -16,12 +16,6 @@ Top down online RPG prototype
 
 ---
 
-## Current Output:
-
-3
-
-## Next Output:
-
 ## What exists now:
 
 - Output 0:
@@ -47,3 +41,13 @@ Top down online RPG prototype
     - UDP32100 opened (Vultr firewall + UFW)
     - Client connected successfully from home and hotspot network
     - Server running continuously via systemd
+- Output 6:
+  - Implement Tailscale-only SSH
+    - setup a tailnet network and add VPS server and mac device into the network.
+    - Delete firewall rule for TCP 22 via SSH in the allowlist
+    - Remove 22/tcp from UFW allowlist
+
+## Upcoming work:
+
+- Export client and share to friends
+  - friends are able to join the server from their computer.
