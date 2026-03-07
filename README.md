@@ -48,6 +48,7 @@ Top down online RPG prototype
     - Remove 22/tcp from UFW allowlist
 - Output 7:
   - Implement simple deploy and update routine
+  - WIP... writing a script to make deployment easier.
 
 ## Upcoming work:
 
