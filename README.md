@@ -46,6 +46,8 @@ Top down online RPG prototype
     - setup a tailnet network and add VPS server and mac device into the network.
     - Delete firewall rule for TCP 22 via SSH in the allowlist
     - Remove 22/tcp from UFW allowlist
+- Output 7:
+  - Implement simple deploy and update routine
 
 ## Upcoming work:
 
