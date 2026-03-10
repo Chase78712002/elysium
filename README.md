@@ -49,7 +49,7 @@ Top down online RPG prototype
 - Output 7:
   - Implement simple deploy and update routine
   - WIP... writing a script to make deployment easier.
-    - Continue writing the script
+    - test the deployment script
 
 ## Upcoming work:
 
