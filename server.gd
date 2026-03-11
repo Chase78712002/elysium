@@ -26,7 +26,7 @@ func start_server() -> void:
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 
-	_on_player_connected(1)
+
 	print("✅ Server Listening (UDP) on port %d" % PORT)
 
 
@@ -70,5 +70,5 @@ func _on_player_disconnected(id: int):
 		node.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass

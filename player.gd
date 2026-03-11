@@ -8,7 +8,7 @@ const ARRIVAL_DIST: float = 8.0
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var desired_velocity: Vector2 = Vector2.ZERO
-
+@export var sync_velocity: Vector2 = Vector2.ZERO
 
 
 func _enter_tree() -> void:
@@ -19,6 +19,12 @@ func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity	
 	agent.velocity_computed.connect(_on_velocity_computed)
 	agent.max_speed = SPEED
+	
+	if is_multiplayer_authority():
+		$Camera2D.enabled = true
+		$Camera2D.make_current()
+	else:
+		$Camera2D.enabled = false
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
@@ -29,30 +35,38 @@ func _input(event: InputEvent) -> void:
 			target_pos = get_global_mouse_position()
 			has_target = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 
 	if not has_target:
-		agent.set_velocity(Vector2.ZERO)
+		velocity = Vector2.ZERO
+		sync_velocity = Vector2.ZERO
 		return
 		
 	var dist = global_position.distance_to(target_pos)
 	if dist <= ARRIVAL_DIST:
-		agent.set_velocity(Vector2.ZERO)
+		velocity = Vector2.ZERO
+		sync_velocity = Vector2.ZERO
 		has_target = false
 		return
+		
 	desired_velocity = global_position.direction_to(target_pos) * SPEED
-	agent.set_velocity(desired_velocity)
+	velocity = desired_velocity
+	sync_velocity = velocity
+	move_and_slide()
 
 
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	if not is_multiplayer_authority():
-		return
-
-	var v := safe_velocity
-	if v == Vector2.ZERO and has_target:
-		v = desired_velocity
-	velocity = v
-	move_and_slide()	
+	#if not is_multiplayer_authority():
+		#return
+#
+	#var v := safe_velocity
+	#if v == Vector2.ZERO and has_target:
+		#v = desired_velocity
+	#velocity = v
+	#sync_velocity = v
+	#
+	#move_and_slide()	
+	pass
