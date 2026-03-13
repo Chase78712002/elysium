@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const SPEED: float = 300.0
 const ARRIVAL_DIST: float = 8.0
+const SEPARATION_DIST: float = 150.0
 
 @onready var agent:NavigationAgent2D = $NavigationAgent2D
 var target_pos: Vector2 = Vector2.ZERO
@@ -55,7 +56,7 @@ func _physics_process(_delta: float) -> void:
 	velocity = desired_velocity
 	sync_velocity = velocity
 	move_and_slide()
-
+	apply_player_separation()
 
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
@@ -69,4 +70,23 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	#sync_velocity = v
 	#
 	#move_and_slide()	
+	pass
+
+func apply_player_separation()-> void:
+	for other in get_tree().get_nodes_in_group("players"):
+		if other == self:
+			continue
+
+		if not other is CharacterBody2D:
+			continue
+
+		var offset :Vector2 = global_position - other.global_position
+		var dist :float = offset.length()
+		
+		if dist == 0.0:
+			continue
+
+		if dist < SEPARATION_DIST:
+			var push :Vector2 = offset.normalized() * (SEPARATION_DIST - dist)
+			global_position += push
 	pass
