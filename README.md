@@ -56,8 +56,9 @@ Top down online RPG prototype
     - Apply player separation via code.
     - Players don't push each other anymore.
     - Players treat each other as solid blocks and go around when bumping together.
+- Output 9:
+  - Export client and share to friends
+    - Exported windows client build and sent to another machine.
+    - Another machine with the windows .exe file are able to join the server.
 
 ## Upcoming work:
-
-- Export client and share to friends
-  - friends are able to join the server from their computer.
