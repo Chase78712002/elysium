@@ -52,7 +52,10 @@ Top down online RPG prototype
     - test the deployment script
 
 - Output 8:
-  - WIP...Fix later joined players can't be push by prior joined players.
+  - Fix later joined players can't be push by prior joined players.
+    - Apply player separation via code.
+    - Players don't push each other anymore.
+    - Players treat each other as solid blocks and go around when bumping together.
 
 ## Upcoming work:
 
