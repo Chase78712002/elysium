@@ -20,6 +20,7 @@ func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity	
 	agent.velocity_computed.connect(_on_velocity_computed)
 	agent.max_speed = SPEED
+	$NameLabel.text = name
 	
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true
