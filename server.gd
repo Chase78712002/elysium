@@ -5,13 +5,23 @@ const MAX_CLIENTS := 32
 
 @onready var players := $Players
 var player_scene := preload("res://Player.tscn")
+var spawn_couner: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Spawner.spawn_function = _spawn_player # set on all peers
 	if DisplayServer.get_name() == "headless":
 		start_server()
 	else:
 		connect_to_server("45.77.215.222")
+
+func _spawn_player(data: Dictionary) -> Node:
+	var p := player_scene.instantiate()
+	p.name = str(data.id)
+	p.position = data.position
+
+	print("Spawn Player: %s, Position: %s" % [p.name, p.position] )
+	return p
 	
 func start_server() -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -52,12 +62,13 @@ func _on_player_connected(id: int)-> void:
 	if not multiplayer.is_server():
 		return
 
-	var p := player_scene.instantiate()
-	p.name = str(id)
-	players.add_child(p)
-	p.position = Vector2(400,300)
+	var pos = GameData.SPAWN_POINTS[spawn_couner % GameData.SPAWN_POINTS.size()]
+	spawn_couner += 1
+	$Spawner.spawn({"id": id, "position": pos})
+	
 
-	print("Spawn Player: %s, Position: %s" % [p.name, p.position] )
+
+	
 
 func _on_player_disconnected(id: int):
 	print("👋 peer disconnected:",id)

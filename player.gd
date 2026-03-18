@@ -15,7 +15,6 @@ var desired_velocity: Vector2 = Vector2.ZERO
 func _enter_tree() -> void:
 	# Node name is the peer id (server sets this)
 	set_multiplayer_authority(int(name))
-
 func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity	
 	agent.velocity_computed.connect(_on_velocity_computed)
