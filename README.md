@@ -60,5 +60,16 @@ Top down online RPG prototype
   - Export client and share to friends
     - Exported windows client build and sent to another machine.
     - Another machine with the windows .exe file are able to join the server.
+- Output 10:
+  - Add tiny map background + a few blocking walls
+    - a grassy floor
+    - 3 wall blocks
+    - a bounded test area
+  - Player name label above each character.
 
 ## Upcoming work:
+
+- Implement spawn spacing
+- Add real player names
+- Add simple attacks
+- Add simple creatures
