@@ -1,15 +1,66 @@
 [gd_scene format=3 uid="uid://b6rtx7q7b82xa"]
 
 [ext_resource type="Script" uid="uid://d0oafiepm3jxe" path="res://server.gd" id="1_r0du0"]
+[ext_resource type="Texture2D" uid="uid://befc17d5q3a78" path="res://assets/maps/Gemini_Generated_Image_qtqph6qtqph6qtqp.png" id="2_uu6xs"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_glv2v"]
-vertices = PackedVector2Array(1489.9766, -642.1172, 1487.0078, 879.8125, -1037.0234, 834.1719, -1040.9688, -672.8672)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uu6xs"]
+size = Vector2(38.500122, 3064)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
+size = Vector2(53.500122, 5464)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_r0du0"]
+vertices = PackedVector2Array(678.8906, 379, -677, 379, -677, -369, 671.10156, -369)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1497, 890, -1047, 844, -1051, -683, 1500, -652)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-687, -379, 681, -379, 689, 389, -687, 389)])
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uu6xs"]
+radius = 141.03687
+height = 1007.33105
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r0du0"]
+radius = 246.2107
+height = 1041.8447
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cm0pq"]
+radius = 154.90063
+height = 986.9302
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fos0i"]
+radius = 246.2107
+height = 1280.0459
 
 [node name="Node2D" type="Node2D" unique_id=395471888]
 position = Vector2(71, 19)
 script = ExtResource("1_r0du0")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=167148558]
+scale = Vector2(4, 4)
+texture = ExtResource("2_uu6xs")
+
+[node name="boundary" type="StaticBody2D" parent="." unique_id=623537642]
+
+[node name="left" type="CollisionShape2D" parent="boundary" unique_id=465716871]
+position = Vector2(-2743, -19)
+shape = SubResource("RectangleShape2D_uu6xs")
+debug_color = Color(0.8627451, 0, 0.18431373, 0.7411765)
+
+[node name="right" type="CollisionShape2D" parent="boundary" unique_id=1537859593]
+position = Vector2(2737, -11)
+shape = SubResource("RectangleShape2D_uu6xs")
+debug_color = Color(0.8627451, 0, 0.18431373, 0.7411765)
+
+[node name="top" type="CollisionShape2D" parent="boundary" unique_id=1096489054]
+position = Vector2(-7, -1539)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_r0du0")
+debug_color = Color(0.99607843, 0, 0.18431373, 0.8235294)
+
+[node name="bottom" type="CollisionShape2D" parent="boundary" unique_id=1211641880]
+position = Vector2(16.999985, 1525)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_r0du0")
+debug_color = Color(0.99607843, 0, 0.18431373, 0.8235294)
 
 [node name="Players" type="Node2D" parent="." unique_id=1005357585]
 
@@ -18,5 +69,36 @@ _spawnable_scenes = PackedStringArray("uid://ed7tic4vnf8n")
 spawn_path = NodePath("../Players")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1940799262]
-position = Vector2(-35, 3)
-navigation_polygon = SubResource("NavigationPolygon_glv2v")
+visible = false
+position = Vector2(1, 5)
+scale = Vector2(4, 4)
+navigation_polygon = SubResource("NavigationPolygon_r0du0")
+navigation_layers = 3
+
+[node name="Obstacles" type="StaticBody2D" parent="." unique_id=623246950]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles" unique_id=1712062376]
+position = Vector2(-1175, -1123)
+rotation = 3.6672878
+shape = SubResource("CapsuleShape2D_uu6xs")
+debug_color = Color(0.20784314, 0.19607843, 0.1764706, 0.81960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles" unique_id=1363481169]
+position = Vector2(-2214.9998, -259)
+rotation = 1.3853333
+shape = SubResource("CapsuleShape2D_r0du0")
+debug_color = Color(0.20784314, 0.19607843, 0.1764706, 0.81960785)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Obstacles" unique_id=1171078142]
+position = Vector2(2313, -467.00006)
+rotation = -1.2305641
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("CapsuleShape2D_cm0pq")
+debug_color = Color(0.20784314, 0.19607843, 0.1764706, 0.81960785)
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Obstacles" unique_id=1538162680]
+position = Vector2(1193, -1211.0001)
+rotation = 1.8977981
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("CapsuleShape2D_fos0i")
+debug_color = Color(0.20784314, 0.19607843, 0.1764706, 0.81960785)
