@@ -66,8 +66,8 @@ Top down online RPG prototype
     - 3 wall blocks
     - a bounded test area
   - Player name label above each character.
-- Output 11: WIP
-  - Implement spawn spacing
+- Output 11:
+  - Spawn position follows pre-defined spawn locations in order.
 
 ## Upcoming work:
 
