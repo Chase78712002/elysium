@@ -16,8 +16,7 @@ func _enter_tree() -> void:
 	# Node name is the peer id (server sets this)
 	set_multiplayer_authority(int(name))
 func _ready() -> void:
-	# Avoidance needs this signal to apply the safe velocity	
-	agent.velocity_computed.connect(_on_velocity_computed)
+	# Avoidance needs this signal to apply the safe velocity
 	agent.max_speed = SPEED
 	$NameLabel.text = name
 	
@@ -57,20 +56,6 @@ func _physics_process(_delta: float) -> void:
 	sync_velocity = velocity
 	move_and_slide()
 	apply_player_separation()
-
-
-func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	#if not is_multiplayer_authority():
-		#return
-#
-	#var v := safe_velocity
-	#if v == Vector2.ZERO and has_target:
-		#v = desired_velocity
-	#velocity = v
-	#sync_velocity = v
-	#
-	#move_and_slide()	
-	pass
 
 func apply_player_separation()-> void:
 	for other in get_tree().get_nodes_in_group("players"):

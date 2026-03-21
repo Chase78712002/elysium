@@ -65,10 +65,6 @@ func _on_player_connected(id: int)-> void:
 	var pos = GameData.SPAWN_POINTS[spawn_couner % GameData.SPAWN_POINTS.size()]
 	spawn_couner += 1
 	$Spawner.spawn({"id": id, "position": pos})
-	
-
-
-	
 
 func _on_player_disconnected(id: int):
 	print("👋 peer disconnected:",id)
