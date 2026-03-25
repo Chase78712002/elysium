@@ -102,3 +102,35 @@ rotation = 1.8977981
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("CapsuleShape2D_fos0i")
 debug_color = Color(0.20784314, 0.19607843, 0.1764706, 0.81960785)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=460732593]
+
+[node name="NameInput" type="LineEdit" parent="CanvasLayer" unique_id=1756553716]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -776.0
+offset_top = -354.0
+offset_right = -476.0
+offset_bottom = -294.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Enter Your Name"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer" unique_id=806318026]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -716.0
+offset_top = -274.0
+offset_right = -516.0
+offset_bottom = -214.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "JOIN"

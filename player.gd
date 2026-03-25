@@ -10,7 +10,7 @@ var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var desired_velocity: Vector2 = Vector2.ZERO
 @export var sync_velocity: Vector2 = Vector2.ZERO
-
+@export var player_display_name: String = ""
 
 func _enter_tree() -> void:
 	# Node name is the peer id (server sets this)
@@ -18,7 +18,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity
 	agent.max_speed = SPEED
-	$NameLabel.text = name
+	$NameLabel.text = player_display_name if player_display_name != "" else name 
 	
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true

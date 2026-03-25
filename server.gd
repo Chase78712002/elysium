@@ -6,6 +6,7 @@ const MAX_CLIENTS := 32
 @onready var players := $Players
 var player_scene := preload("res://Player.tscn")
 var spawn_couner: int = 0
+var local_player_name: String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,13 +14,15 @@ func _ready() -> void:
 	if DisplayServer.get_name() == "headless":
 		start_server()
 	else:
-		connect_to_server("45.77.215.222")
+		#connect_to_server("45.77.215.222")
+		$CanvasLayer.visible = true
+		$CanvasLayer/JoinButton.pressed.connect(_on_join_pressed)
 
 func _spawn_player(data: Dictionary) -> Node:
 	var p := player_scene.instantiate()
 	p.name = str(data.id)
 	p.position = data.position
-
+	p.player_display_name = data.get("player_name", str(data.id))
 	print("Spawn Player: %s, Position: %s" % [p.name, p.position] )
 	return p
 	
@@ -51,7 +54,7 @@ func connect_to_server(ip: String) -> void:
 	multiplayer.multiplayer_peer = peer
 	print("✅ Client connecting to %s:%d" % [ip, PORT])
 
-	multiplayer.connected_to_server.connect(func(): print("✅ connected to server"))
+	multiplayer.connected_to_server.connect(func(): print("✅ connected to server"); request_spawn.rpc_id(1, local_player_name))
 	multiplayer.connection_failed.connect(func(): print("💔 connection failed:"))
 	multiplayer.server_disconnected.connect(func(): print("⚠️ server disconnected:"))
 
@@ -62,9 +65,7 @@ func _on_player_connected(id: int)-> void:
 	if not multiplayer.is_server():
 		return
 
-	var pos = GameData.SPAWN_POINTS[spawn_couner % GameData.SPAWN_POINTS.size()]
-	spawn_couner += 1
-	$Spawner.spawn({"id": id, "position": pos})
+	
 
 func _on_player_disconnected(id: int):
 	print("👋 peer disconnected:",id)
@@ -75,6 +76,17 @@ func _on_player_disconnected(id: int):
 	var node := players.get_node_or_null(str(id))
 	if node:
 		node.queue_free()
+		
+func _on_join_pressed():
+	local_player_name = $CanvasLayer/NameInput.text.strip_edges()
+	connect_to_server("45.77.215.222")
+	$CanvasLayer.visible = false
+
+@rpc("any_peer") func request_spawn(player_name: String):
+	var id = multiplayer.get_remote_sender_id()
+	var pos = GameData.SPAWN_POINTS[spawn_couner % GameData.SPAWN_POINTS.size()]
+	spawn_couner += 1
+	$Spawner.spawn({"id": id, "position": pos, "player_name": player_name})
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
