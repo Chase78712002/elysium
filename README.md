@@ -68,9 +68,12 @@ Top down online RPG prototype
   - Player name label above each character.
 - Output 11:
   - Spawn position follows pre-defined spawn locations in order.
+- Output 12: WIP
+  - Add real player names
+    - Create simple start UI for players to enter their names.
+    - Player connects with their entered name on the top of their placeholder icon
 
 ## Upcoming work:
 
-- Add real player names
 - Add simple attacks
 - Add simple creatures
