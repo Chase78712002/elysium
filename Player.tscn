@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cqyusu3a6k4fr" path="res://icon.svg" id="2_i3pqv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
-size = Vector2(157, 155)
+size = Vector2(155, 155)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kpjcp"]
 properties/0/path = NodePath(".:position")
@@ -24,6 +24,9 @@ font_weight = 800
 font = SubResource("SystemFont_kpjcp")
 font_size = 32
 font_color = Color(0.105882354, 0.2, 1, 0.8235294)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
+radius = 110.0
 
 [node name="Player" type="CharacterBody2D" unique_id=121686041 groups=["players"]]
 collision_layer = 2
@@ -52,3 +55,8 @@ offset_right = 76.0
 offset_bottom = -78.0
 label_settings = SubResource("LabelSettings_kpjcp")
 horizontal_alignment = 1
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1714516402]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1031872823]
+shape = SubResource("CircleShape2D_kpjcp")
