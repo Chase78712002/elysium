@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://byxfe6ysumd4u"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_uxuua"]
+size = Vector2(155, 155)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fd6ru"]
+size = Vector2(155, 155)
+
+[node name="Creature" type="StaticBody2D" unique_id=1769879070 groups=["creatures"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=508136578]
+texture = SubResource("PlaceholderTexture2D_uxuua")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1565513586]
+shape = SubResource("RectangleShape2D_fd6ru")
