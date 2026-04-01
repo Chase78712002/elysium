@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d0oafiepm3jxe" path="res://server.gd" id="1_r0du0"]
 [ext_resource type="Texture2D" uid="uid://befc17d5q3a78" path="res://assets/maps/Gemini_Generated_Image_qtqph6qtqph6qtqp.png" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://byxfe6ysumd4u" path="res://creature.tscn" id="3_r0du0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uu6xs"]
 size = Vector2(38.500122, 3064)
@@ -134,3 +135,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 30
 text = "JOIN"
+
+[node name="Creature" parent="." unique_id=1769879070 instance=ExtResource("3_r0du0")]
+position = Vector2(281, -115)
