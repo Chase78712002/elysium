@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED: float = 300.0
 const ARRIVAL_DIST: float = 8.0
 const SEPARATION_DIST: float = 150.0
-
+const ATTACK_RANGE: float = 200.0
 @onready var agent:NavigationAgent2D = $NavigationAgent2D
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
