@@ -32,8 +32,32 @@ func _input(event: InputEvent) -> void:
 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			target_pos = get_global_mouse_position()
+			var clicked_pos = get_global_mouse_position()
 			has_target = true
+
+			# Ask physics world: what's at this position
+			var space = get_world_2d().direct_space_state
+			var query = PhysicsPointQueryParameters2D.new()
+			
+			query.position = clicked_pos
+			var results = space.intersect_point(query)
+			
+			var clicked_creature = null
+			for result in results:
+				if result.collider.is_in_group("creatures"):
+					clicked_creature = result.collider
+					break
+					
+			if clicked_creature:
+				var dist = global_position.distance_to(clicked_creature.global_position)
+				if dist <= ATTACK_RANGE:
+					print("attack: CREATURE")
+				else:
+					target_pos = clicked_creature.global_position
+					has_target = true
+			else:
+				target_pos = clicked_pos
+				has_target = true
 
 func _physics_process(_delta: float) -> void:
 	if not is_multiplayer_authority():
