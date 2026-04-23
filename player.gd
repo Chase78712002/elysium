@@ -51,7 +51,7 @@ func _input(event: InputEvent) -> void:
 			if clicked_creature:
 				var dist = global_position.distance_to(clicked_creature.global_position)
 				if dist <= ATTACK_RANGE:
-					print("attack: CREATURE")
+					clicked_creature.take_damage(1)
 				else:
 					target_pos = clicked_creature.global_position
 					has_target = true
