@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://byxfe6ysumd4u"]
 
+[ext_resource type="Script" uid="uid://bhh6ayo6d0p05" path="res://creature.gd" id="1_fd6ru"]
+
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_uxuua"]
 size = Vector2(155, 155)
 
@@ -7,6 +9,7 @@ size = Vector2(155, 155)
 size = Vector2(155, 155)
 
 [node name="Creature" type="StaticBody2D" unique_id=1769879070 groups=["creatures"]]
+script = ExtResource("1_fd6ru")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=508136578]
 texture = SubResource("PlaceholderTexture2D_uxuua")
