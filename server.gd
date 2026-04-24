@@ -5,12 +5,14 @@ const MAX_CLIENTS := 32
 
 @onready var players := $Players
 var player_scene := preload("res://Player.tscn")
+var creature_scene := preload("res://creature.tscn")
 var spawn_couner: int = 0
 var local_player_name: String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Spawner.spawn_function = _spawn_player # set on all peers
+	$CreaturesSpawner.spawn_function = _spawn_creature
 	if DisplayServer.get_name() == "headless":
 		start_server()
 	else:
@@ -25,6 +27,12 @@ func _spawn_player(data: Dictionary) -> Node:
 	p.player_display_name = data.get("player_name", str(data.id))
 	print("Spawn Player: %s, Position: %s" % [p.name, p.position] )
 	return p
+
+func _spawn_creature(data: Dictionary) -> Node:
+	var c := creature_scene.instantiate()
+	c.position = data.position
+	print("Spawn Creature at Position:", c.position)
+	return c
 	
 func start_server() -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -39,8 +47,15 @@ func start_server() -> void:
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 
+	spawn_initial_creatures()
 
 	print("✅ Server Listening (UDP) on port %d" % PORT)
+	
+func spawn_initial_creatures() -> void:
+	if not multiplayer.is_server():
+		return
+	for pos in GameData.CREATURE_SPAWN_POSITIONS:
+		$CreaturesSpawner.spawn({"position": pos})
 
 
 func connect_to_server(ip: String) -> void:
