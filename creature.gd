@@ -9,5 +9,6 @@ func take_damage(amount:int) -> void:
 	prints(name, "HP:", hp)
 	
 	if hp <= 0:
-		queue_free()
+		if multiplayer.is_server():
+			queue_free()
 		prints(name, "is dead")
