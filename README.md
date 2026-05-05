@@ -72,9 +72,16 @@ Top down online RPG prototype
   - Add real player names
     - Create simple start UI for players to enter their names.
     - Player connects with their entered name on the top of their placeholder icon
-- Output 13: WIP...
+- Output 13:
   - Add simple attacks
+- Output 14:
+  - Add simple creatures
+  - Add hp to creatures
+  - Attacks reduce creatures' hp
+  - Creatures are removed when hp reaches 0
+- Output 15:
+  - Spawn multiple creatures
+  - Fix attacks and creatures removed only happen locally.
+- Output 16:
 
 ## Upcoming work:
-
-- Add simple creatures
