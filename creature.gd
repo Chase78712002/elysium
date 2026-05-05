@@ -3,6 +3,7 @@ extends StaticBody2D
 const MAX_HP = 10
 var hp = MAX_HP
 
+@rpc("any_peer", "call_local","reliable")
 func take_damage(amount:int) -> void:
 	hp -= amount
 	prints("creature taking damage", amount)
