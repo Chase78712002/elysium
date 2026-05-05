@@ -138,4 +138,5 @@ text = "JOIN"
 [node name="Creatures" type="Node2D" parent="." unique_id=234414809]
 
 [node name="CreaturesSpawner" type="MultiplayerSpawner" parent="." unique_id=62049633]
+_spawnable_scenes = PackedStringArray("uid://byxfe6ysumd4u")
 spawn_path = NodePath("../Creatures")
