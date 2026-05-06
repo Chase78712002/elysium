@@ -5,9 +5,11 @@ const SPEED: float = 300.0
 const ARRIVAL_DIST: float = 8.0
 const SEPARATION_DIST: float = 150.0
 const ATTACK_RANGE: float = 200.0
-@onready var agent:NavigationAgent2D = $NavigationAgent2D
+@onready var agent: NavigationAgent2D = $NavigationAgent2D
+@onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
+var is_attacking: bool = false
 var desired_velocity: Vector2 = Vector2.ZERO
 @export var sync_velocity: Vector2 = Vector2.ZERO
 @export var player_display_name: String = ""
@@ -18,6 +20,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity
 	agent.max_speed = SPEED
+	anim_sprite.play("idle")
+	anim_sprite.animation_finished.connect(_on_attack_finished)
 	$NameLabel.text = player_display_name if player_display_name != "" else name 
 	
 	if is_multiplayer_authority():
@@ -51,6 +55,8 @@ func _input(event: InputEvent) -> void:
 			if clicked_creature:
 				var dist = global_position.distance_to(clicked_creature.global_position)
 				if dist <= ATTACK_RANGE:
+					is_attacking = true
+					anim_sprite.play("attack")
 					clicked_creature.take_damage.rpc_id(1,1)
 				else:
 					target_pos = clicked_creature.global_position
@@ -66,6 +72,8 @@ func _physics_process(_delta: float) -> void:
 	if not has_target:
 		velocity = Vector2.ZERO
 		sync_velocity = Vector2.ZERO
+		if not is_attacking:
+			anim_sprite.play("idle")
 		return
 		
 	var dist = global_position.distance_to(target_pos)
@@ -80,6 +88,12 @@ func _physics_process(_delta: float) -> void:
 	sync_velocity = velocity
 	move_and_slide()
 	apply_player_separation()
+	
+	if not is_attacking:
+		if velocity != Vector2.ZERO:
+			anim_sprite.play("walk")
+		else:
+			anim_sprite.play("idle")
 
 func apply_player_separation()-> void:
 	for other in get_tree().get_nodes_in_group("players"):
@@ -99,3 +113,8 @@ func apply_player_separation()-> void:
 			var push :Vector2 = offset.normalized() * (SEPARATION_DIST - dist)
 			global_position += push
 	pass
+
+func _on_attack_finished()->void:
+	if anim_sprite.animation == "attack":
+		is_attacking = false
+		anim_sprite.play("idle")

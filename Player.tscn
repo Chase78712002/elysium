@@ -1,7 +1,36 @@
 [gd_scene format=3 uid="uid://ed7tic4vnf8n"]
 
 [ext_resource type="Script" uid="uid://dfrtp75s0qnnu" path="res://player.gd" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://cqyusu3a6k4fr" path="res://icon.svg" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://b8u8i81vyt3rb" path="res://assets/knight/attack.png" id="2_e80uo"]
+[ext_resource type="Texture2D" uid="uid://bwifd62e8ugp5" path="res://assets/knight/idle.png" id="2_kne1u"]
+[ext_resource type="Texture2D" uid="uid://tblk1chjphv4" path="res://assets/knight/walk.png" id="3_e80uo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dtqjt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_e80uo")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kne1u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_e80uo")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
 size = Vector2(155, 155)
@@ -32,8 +61,9 @@ radius = 110.0
 collision_layer = 2
 script = ExtResource("1_onrkg")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1724982106]
-texture = ExtResource("2_i3pqv")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=33414149]
+sprite_frames = SubResource("SpriteFrames_dtqjt")
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689951620]
 position = Vector2(-1.5, 1.5)
