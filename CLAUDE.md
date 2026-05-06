@@ -537,6 +537,24 @@ If modifying this system, preserve the simple flow.
 
 This means the project has passed the “real second machine can join” milestone.
 
+### Output H — Multiple creature spawning
+
+- `Creatures` container and `CreaturesSpawner` (`MultiplayerSpawner`) in `Main.tscn`.
+- `game_data.gd` with `CREATURE_SPAWN_POSITIONS`.
+- `spawn_initial_creatures()` called on server startup.
+- Multiple creatures spawn at fixed positions for all connected players.
+- Each creature has its own HP; players can attack different creatures.
+
+### Output I — Knight character sprite + animations
+
+- Generated knight character sprite using Gemini (Warhammer 40k / TMNT / Iron Man mashup).
+- Three poses stored as `assets/knight/idle.png`, `attack.png`, `walk.png`.
+- Replaced `Sprite2D` with `AnimatedSprite2D` in `Player.tscn`.
+- Three animations set up in SpriteFrames: `idle`, `walk`, `attack`.
+- `player.gd` updated to drive animations from movement and attack state.
+- `is_attacking` flag prevents `_physics_process` from overwriting the attack animation.
+- `animation_finished` signal returns to idle after attack completes.
+
 ---
 
 ## Current Known Issues / Notes
@@ -600,23 +618,7 @@ Do not accidentally reintroduce “players shove each other around” unless the
 
 The planned order from here:
 
-### Output next — Spawn multiple creatures (WIP — not working yet)
-
-Goal:
-
-- multiple creatures on map
-- each creature has its own HP
-- players can attack different creatures
-
-Infrastructure added so far:
-
-- `Creatures` container and `CreaturesSpawner` (`MultiplayerSpawner`) in `Main.tscn`
-- `game_data.gd` with `CREATURE_SPAWN_POSITIONS`
-- `spawn_initial_creatures()` called on server startup
-
-**Status: in progress, not yet functional.**
-
-### After that — Basic combat polish
+### Output next — Basic combat polish
 
 Possible small outputs:
 
@@ -683,4 +685,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Fix multiple creature spawning so creatures appear on the map for all players.
+> Creature respawn and player HP — close the game loop so there are real stakes when playing with friends.
