@@ -83,5 +83,10 @@ Top down online RPG prototype
   - Spawn multiple creatures
   - Fix attacks and creatures removed only happen locally.
 - Output 16:
+  - Add character's basic sprites
+    - walk
+    - idle
+    - attack
+  - Add animations logic
 
 ## Upcoming work:
