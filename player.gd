@@ -23,6 +23,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	# Avoidance needs this signal to apply the safe velocity
 	agent.max_speed = SPEED
+	spawn_position = global_position
 	anim_sprite.play("idle")
 	anim_sprite.animation_finished.connect(_on_attack_finished)
 	$NameLabel.text = player_display_name if player_display_name != "" else name 
