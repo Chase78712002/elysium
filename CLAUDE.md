@@ -618,6 +618,18 @@ Do not accidentally reintroduce “players shove each other around” unless the
 
 The planned order from here:
 
+### Output J — Creature respawn
+
+- Creatures hide on death instead of `queue_free()`.
+- Server waits 5 seconds then resets HP and position.
+- `set_visibility` RPC propagates hide/show to all clients.
+
+### Output K — Player HP + respawn
+
+- Player has `MAX_HP = 100` and `hp` variable.
+- `take_damage` RPC on player mirrors creature pattern.
+- On death, HP resets and player teleports back to spawn position.
+
 ### Output next — Basic combat polish
 
 Possible small outputs:
@@ -685,4 +697,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Creature respawn and player HP — close the game loop so there are real stakes when playing with friends.
+> Creatures attack back — give players a reason to care about their HP.

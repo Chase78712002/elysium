@@ -92,5 +92,7 @@ Top down online RPG prototype
   - Add creatures respawning after death
 - Output 18:
   - Add player HP + death/respawn
+- Output 19: WIP
+  - Add creatures attacking back to reduce player HP
 
 ## Upcoming work:
