@@ -88,5 +88,9 @@ Top down online RPG prototype
     - idle
     - attack
   - Add animations logic
+- Output 17:
+  - Add creatures respawning after death
+- Output 18:
+  - Add player HP + death/respawn
 
 ## Upcoming work:
