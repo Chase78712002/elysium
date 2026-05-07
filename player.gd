@@ -126,9 +126,12 @@ func _on_attack_finished()->void:
 @rpc("authority","call_local","reliable")
 func take_damage(amount: int) -> void:
 	hp -= amount
-	prints(name, "HP:", hp)
+	prints(player_display_name, "HP:", hp)
 	if hp <= 0:
+		prints(player_display_name, "is dead, restarting...")
 		restart()
 
 func restart() -> void:
-	pass
+	hp = MAX_HP
+	has_target = false
+	global_position = spawn_position
