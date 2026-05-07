@@ -128,4 +128,7 @@ func take_damage(amount: int) -> void:
 	hp -= amount
 	prints(name, "HP:", hp)
 	if hp <= 0:
-		respawn()
+		restart()
+
+func restart() -> void:
+	pass
