@@ -122,3 +122,10 @@ func _on_attack_finished()->void:
 	if anim_sprite.animation == "attack":
 		is_attacking = false
 		anim_sprite.play("idle")
+
+@rpc("authority","call_local","reliable")
+func take_damage(amount: int) -> void:
+	hp -= amount
+	prints(name, "HP:", hp)
+	if hp <= 0:
+		respawn()
