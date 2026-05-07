@@ -33,7 +33,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
-size = Vector2(155, 155)
+size = Vector2(210, 195)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kpjcp"]
 properties/0/path = NodePath(".:position")
@@ -55,7 +55,7 @@ font_size = 32
 font_color = Color(0.105882354, 0.2, 1, 0.8235294)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
-radius = 110.0
+radius = 208.02164
 
 [node name="Player" type="CharacterBody2D" unique_id=121686041 groups=["players"]]
 collision_layer = 2
@@ -66,7 +66,7 @@ sprite_frames = SubResource("SpriteFrames_dtqjt")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689951620]
-position = Vector2(-1.5, 1.5)
+position = Vector2(5, 208.5)
 shape = SubResource("RectangleShape2D_kpjcp")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=671016496]
@@ -79,14 +79,15 @@ radius = 80.0
 enabled = false
 
 [node name="NameLabel" type="Label" parent="." unique_id=1374796691]
-offset_left = -79.0
-offset_top = -101.0
-offset_right = 76.0
-offset_bottom = -78.0
+offset_left = -38.0
+offset_top = -314.0
+offset_right = 117.0
+offset_bottom = -269.0
 label_settings = SubResource("LabelSettings_kpjcp")
 horizontal_alignment = 1
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1714516402]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1031872823]
+position = Vector2(3, 234)
 shape = SubResource("CircleShape2D_kpjcp")
