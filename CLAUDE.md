@@ -630,6 +630,13 @@ The planned order from here:
 - `take_damage` RPC on player mirrors creature pattern.
 - On death, HP resets and player teleports back to spawn position.
 
+### Output L — Creatures attack back
+
+- Creature runs a server-side `attack_loop` every 2 seconds.
+- Checks all players in range (`ATTACK_RANGE = 150px`).
+- Deals `ATTACK_DAMAGE = 5` to any player within range via `take_damage` RPC.
+- Skips attacking while hidden (dead/respawning).
+
 ### Output next — Basic combat polish
 
 Possible small outputs:
@@ -697,4 +704,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Creatures attack back — give players a reason to care about their HP.
+> Basic combat polish — HP bar or label so players can see their health, and some visual feedback when taking damage.
