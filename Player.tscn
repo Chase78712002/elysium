@@ -9,14 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://cgqlpwg33w7rf" path="res://assets/knight/walk_down_2.png" id="6_wi0c6"]
 [ext_resource type="Texture2D" uid="uid://bm3ipj1uog6m7" path="res://assets/knight/walk_down_4.png" id="7_hp6x6"]
 [ext_resource type="Texture2D" uid="uid://ixajqy775gu4" path="res://assets/knight/walk_down_3.png" id="8_3tkgg"]
-[ext_resource type="Texture2D" uid="uid://csv4k5bb03sst" path="res://assets/knight/walk_right_1.png" id="9_jatw7"]
-[ext_resource type="Texture2D" uid="uid://dsxvt5c0usyet" path="res://assets/knight/walk_right_2.png" id="10_rv870"]
-[ext_resource type="Texture2D" uid="uid://4af24r0fsa3e" path="res://assets/knight/walk_right_3.png" id="11_efikj"]
-[ext_resource type="Texture2D" uid="uid://c0fcreacw4ar0" path="res://assets/knight/walk_right_4.png" id="12_itxgx"]
-[ext_resource type="Texture2D" uid="uid://dyrph4wunpsx3" path="res://assets/knight/walk_right_5.png" id="13_cgsek"]
-[ext_resource type="Texture2D" uid="uid://mdxgudnmmwwi" path="res://assets/knight/walk_right_6.png" id="14_0pi4m"]
-[ext_resource type="Texture2D" uid="uid://c5fdrk7ywtqjs" path="res://assets/knight/walk_right_7.png" id="15_sg6sq"]
-[ext_resource type="Texture2D" uid="uid://divt2xqs1uk6a" path="res://assets/knight/walk_right_8.png" id="16_h84ma"]
+[ext_resource type="Texture2D" uid="uid://u4fe7e6pp6qq" path="res://assets/knight/walk_right_1.png" id="9_jatw7"]
+[ext_resource type="Texture2D" uid="uid://u8doe71c2p0b" path="res://assets/knight/walk_right_2.png" id="10_rv870"]
+[ext_resource type="Texture2D" uid="uid://bom6gufp7jkqd" path="res://assets/knight/walk_right_3.png" id="11_efikj"]
+[ext_resource type="Texture2D" uid="uid://0jb8vpyi34dr" path="res://assets/knight/walk_right_4.png" id="12_itxgx"]
+[ext_resource type="Texture2D" uid="uid://d1ys7xcuk1nhu" path="res://assets/knight/walk_right_5.png" id="13_cgsek"]
+[ext_resource type="Texture2D" uid="uid://dwoe8cp247l2u" path="res://assets/knight/walk_right_6.png" id="14_0pi4m"]
+[ext_resource type="Texture2D" uid="uid://hvpqfxto27dl" path="res://assets/knight/walk_right_7.png" id="15_sg6sq"]
+[ext_resource type="Texture2D" uid="uid://bupbkv83xx6yr" path="res://assets/knight/walk_right_8.png" id="16_h84ma"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dtqjt"]
 animations = [{
@@ -86,7 +86,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_right",
-"speed": 8.0
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
@@ -122,7 +122,7 @@ script = ExtResource("1_onrkg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=33414149]
 position = Vector2(4, -72)
 sprite_frames = SubResource("SpriteFrames_dtqjt")
-animation = &"walk_down"
+animation = &"walk_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689951620]
 position = Vector2(5, 208.5)

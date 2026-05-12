@@ -14,6 +14,7 @@ var is_attacking: bool = false
 var hp: int = MAX_HP
 var spawn_position: Vector2 = Vector2.ZERO
 var desired_velocity: Vector2 = Vector2.ZERO
+var last_direction: Vector2 = Vector2.DOWN
 @export var sync_velocity: Vector2 = Vector2.ZERO
 @export var player_display_name: String = ""
 
@@ -60,7 +61,7 @@ func _input(event: InputEvent) -> void:
 				var dist = global_position.distance_to(clicked_creature.global_position)
 				if dist <= ATTACK_RANGE:
 					is_attacking = true
-					anim_sprite.play("attack")
+					anim_sprite.play("attack_poke")
 					clicked_creature.take_damage.rpc_id(1,1)
 				else:
 					target_pos = clicked_creature.global_position
@@ -77,6 +78,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		sync_velocity = Vector2.ZERO
 		if not is_attacking:
+			anim_sprite.flip_h = last_direction.x > 0
 			anim_sprite.play("idle")
 		return
 		
@@ -95,8 +97,18 @@ func _physics_process(_delta: float) -> void:
 	
 	if not is_attacking:
 		if velocity != Vector2.ZERO:
-			anim_sprite.play("walk")
+			last_direction = velocity.normalized()
+			if abs(last_direction.x) > abs(last_direction.y):
+				anim_sprite.flip_h = last_direction.x < 0
+				anim_sprite.play("walk_right")	
+			else:
+				anim_sprite.flip_h = false
+				anim_sprite.play("walk_down")
 		else:
+			if abs(last_direction.x) > abs(last_direction.y):
+				anim_sprite.flip_h = last_direction.x > 0
+			else:
+				anim_sprite.flip_h = false
 			anim_sprite.play("idle")
 
 func apply_player_separation()-> void:
@@ -119,11 +131,11 @@ func apply_player_separation()-> void:
 	pass
 
 func _on_attack_finished()->void:
-	if anim_sprite.animation == "attack":
+	if anim_sprite.animation == "attack_poke":
 		is_attacking = false
 		anim_sprite.play("idle")
 
-@rpc("authority","call_local","reliable")
+@rpc("any_peer","call_local","reliable")
 func take_damage(amount: int) -> void:
 	hp -= amount
 	prints(player_display_name, "HP:", hp)
