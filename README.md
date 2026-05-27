@@ -94,5 +94,6 @@ Top down online RPG prototype
   - Add player HP + death/respawn
 - Output 19: WIP
   - Add creatures attacking back to reduce player HP
+  - Add new attack right animation
 
 ## Upcoming work:
