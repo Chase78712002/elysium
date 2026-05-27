@@ -555,6 +555,25 @@ This means the project has passed the “real second machine can join” milesto
 - `is_attacking` flag prevents `_physics_process` from overwriting the attack animation.
 - `animation_finished` signal returns to idle after attack completes.
 
+### Output J — Creature respawn
+
+- Creatures hide on death instead of `queue_free()`.
+- Server waits 5 seconds then resets HP and position.
+- `set_visibility` RPC propagates hide/show to all clients.
+
+### Output K — Player HP + respawn
+
+- Player has `MAX_HP = 100` and `hp` variable.
+- `take_damage` RPC on player mirrors creature pattern.
+- On death, HP resets and player teleports back to spawn position.
+
+### Output L — Creatures attack back
+
+- Creature runs a server-side `attack_loop` every 2 seconds.
+- Checks all players in range (`ATTACK_RANGE = 200px`).
+- Deals `ATTACK_DAMAGE = 5` to any player within range via `take_damage` RPC.
+- Skips attacking while hidden (dead/respawning).
+
 ---
 
 ## Current Known Issues / Notes
@@ -618,45 +637,38 @@ Do not accidentally reintroduce “players shove each other around” unless the
 
 The planned order from here:
 
-### Output J — Creature respawn
+### Output M — HP bar visible to player
 
-- Creatures hide on death instead of `queue_free()`.
-- Server waits 5 seconds then resets HP and position.
-- `set_visibility` RPC propagates hide/show to all clients.
+- Player sees their own HP as a bar or label on screen.
+- Without this, damage and death from Output K/L feel invisible.
+- Likely a simple `ProgressBar` or `Label` in a `CanvasLayer` on the local player.
 
-### Output K — Player HP + respawn
+### Output N — Attack cooldown
 
-- Player has `MAX_HP = 100` and `hp` variable.
-- `take_damage` RPC on player mirrors creature pattern.
-- On death, HP resets and player teleports back to spawn position.
+- Player can only attack once every ~1 second.
+- Prevents click-spam combat; makes combat feel like a rhythm.
+- Simple timer or `cooldown_remaining` float checked before dealing damage.
 
-### Output L — Creatures attack back
+### Output O — Floating damage numbers
 
-- Creature runs a server-side `attack_loop` every 2 seconds.
-- Checks all players in range (`ATTACK_RANGE = 150px`).
-- Deals `ATTACK_DAMAGE = 5` to any player within range via `take_damage` RPC.
-- Skips attacking while hidden (dead/respawning).
+- Small number pops up at the creature or player position when damage lands.
+- Disappears after ~0.5–1 second.
+- Makes combat feel responsive without requiring new art.
 
-### Output next — Basic combat polish
+### Output P — Kill counter
 
-Possible small outputs:
+- Simple counter in the corner: "Kills: 3"
+- Gives players something to chase in a session.
+- Even a per-session number is enough; no persistence needed yet.
 
-- attack cooldown
-- hit feedback print / small flash
-- simple damage number
-- simple creature respawn
-- simple creature name / HP label
+### After that — Polish before wider sharing
 
-### After that — More game loop
+Potential small outputs:
 
-Potential features:
-
-- simple creature AI
-- creature attacks back
-- player HP
-- respawn
-- basic chat
-- friend session playtest notes
+- hit sound effect (free asset)
+- death sound effect
+- creature name / HP label above creature head
+- second creature type (even just a color variant)
 
 ---
 
@@ -704,4 +716,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Basic combat polish — HP bar or label so players can see their health, and some visual feedback when taking damage.
+> Output M — HP bar visible to player. The combat loop (J/K/L) is complete but invisible without it. A player needs to see their health to feel the stakes.
