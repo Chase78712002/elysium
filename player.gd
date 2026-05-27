@@ -61,7 +61,7 @@ func _input(event: InputEvent) -> void:
 				var dist = global_position.distance_to(clicked_creature.global_position)
 				if dist <= ATTACK_RANGE:
 					is_attacking = true
-					anim_sprite.play("attack_poke")
+					anim_sprite.play("attack_right")
 					clicked_creature.take_damage.rpc_id(1,1)
 				else:
 					target_pos = clicked_creature.global_position
@@ -131,7 +131,7 @@ func apply_player_separation()-> void:
 	pass
 
 func _on_attack_finished()->void:
-	if anim_sprite.animation == "attack_poke":
+	if anim_sprite.animation == "attack_right":
 		is_attacking = false
 		anim_sprite.play("idle")
 
