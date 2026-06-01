@@ -95,5 +95,7 @@ Top down online RPG prototype
 - Output 19: WIP
   - Add creatures attacking back to reduce player HP
   - Add new attack right animation
+  - Add HPBar node in view
+  - WIP... wiring up HPBar in script
 
 ## Upcoming work:
