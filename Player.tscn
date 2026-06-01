@@ -256,3 +256,17 @@ position = Vector2(0, -27)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1031872823]
 position = Vector2(-3, 238)
 shape = SubResource("CircleShape2D_kpjcp")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=872324860]
+visible = false
+
+[node name="HPBar" type="ProgressBar" parent="HUD" unique_id=1027498839]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -130.0
+offset_top = -198.0
+offset_right = -1032.0
+offset_bottom = -171.0
+grow_horizontal = 2
+step = 1.0
+value = 100.0
