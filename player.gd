@@ -8,6 +8,7 @@ const ATTACK_RANGE: float = 200.0
 const MAX_HP: int = 100
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hp_bar: ProgressBar = $HUD/HPBar
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var is_attacking: bool = false
@@ -32,8 +33,12 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true
 		$Camera2D.make_current()
+		$HUD.visible = true
+		hp_bar.max_value = MAX_HP
+		hp_bar.value = hp
 	else:
 		$Camera2D.enabled = false
+		$HUD.visible = false
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
@@ -139,6 +144,7 @@ func _on_attack_finished()->void:
 func take_damage(amount: int) -> void:
 	hp -= amount
 	prints(player_display_name, "HP:", hp)
+	hp_bar.value = hp
 	if hp <= 0:
 		prints(player_display_name, "is dead, restarting...")
 		restart()
@@ -147,3 +153,4 @@ func restart() -> void:
 	hp = MAX_HP
 	has_target = false
 	global_position = spawn_position
+	hp_bar.value = hp
