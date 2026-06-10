@@ -220,6 +220,9 @@ font_color = Color(0.105882354, 0.2, 1, 0.8235294)
 [sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
 radius = 208.02164
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7new"]
+bg_color = Color(0.99215686, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=121686041 groups=["players"]]
 collision_layer = 2
 script = ExtResource("1_onrkg")
@@ -258,15 +261,12 @@ position = Vector2(-3, 238)
 shape = SubResource("CircleShape2D_kpjcp")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=872324860]
-visible = false
 
 [node name="HPBar" type="ProgressBar" parent="HUD" unique_id=1027498839]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -130.0
-offset_top = -198.0
-offset_right = -1032.0
-offset_bottom = -171.0
-grow_horizontal = 2
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 420.0
+offset_bottom = 87.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_f7new")
 step = 1.0
 value = 100.0
