@@ -9,10 +9,53 @@ Top down online RPG prototype
 - Godot 4.6.1
 - Planned dedicated server on Vultr Seattle
 
-## Run Instruction:
+## Running the Client
 
-1. Open in Godot
-2. run Main scene
+The client currently connects automatically to the live Elysium server after a player enters a name and clicks **Join**.
+
+### Run from the Godot project
+
+From the project directory containing `project.godot`, run:
+
+```bash
+godot --path .
+```
+
+Then:
+
+1. Enter a player name.
+2. Click **Join**.
+3. The client will connect to the live server.
+
+To run multiple clients on the same machine, open another Terminal window and run the same command again.
+
+### Run the packaged Windows client
+
+Keep these files together in the same folder:
+
+```text
+elysium.exe
+elysium.pck
+```
+
+To join:
+
+1. Extract the ZIP file.
+2. Double-click `elysium.exe`.
+3. Enter a player name.
+4. Click **Join**.
+
+Godot does not need to be installed to run the packaged Windows client.
+
+### Troubleshooting
+
+If the client cannot connect:
+
+- Confirm the computer has an internet connection.
+- Make sure `elysium.exe` and `elysium.pck` are in the same folder.
+- Fully close and reopen the client.
+- Confirm the live server is running.
+- Make sure the client build is compatible with the currently deployed server build.
 
 ---
 
