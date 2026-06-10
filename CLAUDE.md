@@ -574,6 +574,14 @@ This means the project has passed the “real second machine can join” milesto
 - Deals `ATTACK_DAMAGE = 5` to any player within range via `take_damage` RPC.
 - Skips attacking while hidden (dead/respawning).
 
+### Output M — HP bar visible to player
+
+- Added `HUD` (`CanvasLayer`) → `HPBar` (`ProgressBar`) inside `Player.tscn`.
+- `HUD` hidden by default; script shows it only for the authoritative local player (same pattern as `Camera2D`), so friends' bars don't stack on your screen.
+- `HPBar` pinned Top-Left, fixed size, red fill via a `StyleBoxFlat` Fill override.
+- `player.gd` sets `hp_bar.max_value`/`value` in `_ready`, and updates `hp_bar.value` in `take_damage` and `restart`.
+- Purely client-side: no replication schema change, so no server redeploy / version-mismatch risk.
+
 ---
 
 ## Current Known Issues / Notes
@@ -636,12 +644,6 @@ Do not accidentally reintroduce “players shove each other around” unless the
 ## Immediate Next Outputs
 
 The planned order from here:
-
-### Output M — HP bar visible to player
-
-- Player sees their own HP as a bar or label on screen.
-- Without this, damage and death from Output K/L feel invisible.
-- Likely a simple `ProgressBar` or `Label` in a `CanvasLayer` on the local player.
 
 ### Output N — Attack cooldown
 
@@ -716,4 +718,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Output M — HP bar visible to player. The combat loop (J/K/L) is complete but invisible without it. A player needs to see their health to feel the stakes.
+> Output N — Attack cooldown. Output M (HP bar) is done, so combat is now visible. The next bottleneck is that attacks can be click-spammed; a ~1s cooldown turns combat into a deliberate rhythm.
