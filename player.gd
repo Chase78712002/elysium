@@ -6,6 +6,8 @@ const ARRIVAL_DIST: float = 8.0
 const SEPARATION_DIST: float = 150.0
 const ATTACK_RANGE: float = 200.0
 const MAX_HP: int = 100
+const ATTACK_COOLDOWN: float = 1.0
+var cooldown_remaining: float = 0.0
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hp_bar: ProgressBar = $HUD/HPBar
@@ -65,9 +67,12 @@ func _input(event: InputEvent) -> void:
 			if clicked_creature:
 				var dist = global_position.distance_to(clicked_creature.global_position)
 				if dist <= ATTACK_RANGE:
-					is_attacking = true
-					anim_sprite.play("attack_right")
-					clicked_creature.take_damage.rpc_id(1,1)
+					has_target = false
+					if cooldown_remaining <= 0.0:
+						cooldown_remaining = ATTACK_COOLDOWN
+						is_attacking = true
+						anim_sprite.play("attack_right")
+						clicked_creature.take_damage.rpc_id(1,1)
 				else:
 					target_pos = clicked_creature.global_position
 					has_target = true
@@ -75,10 +80,12 @@ func _input(event: InputEvent) -> void:
 				target_pos = clicked_pos
 				has_target = true
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 
+	if cooldown_remaining > 0.0:
+		cooldown_remaining -= delta
 	if not has_target:
 		velocity = Vector2.ZERO
 		sync_velocity = Vector2.ZERO
