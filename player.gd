@@ -7,6 +7,7 @@ const SEPARATION_DIST: float = 150.0
 const ATTACK_RANGE: float = 200.0
 const MAX_HP: int = 100
 const ATTACK_COOLDOWN: float = 1.0
+const DAMAGE_NUMBER_SCENE := preload("res://damage_number.tscn")
 var cooldown_remaining: float = 0.0
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -73,6 +74,7 @@ func _input(event: InputEvent) -> void:
 						is_attacking = true
 						anim_sprite.play("attack_right")
 						clicked_creature.take_damage.rpc_id(1,1)
+						spawn_damage_number(clicked_creature.global_position, 1)
 				else:
 					target_pos = clicked_creature.global_position
 					has_target = true
@@ -123,6 +125,12 @@ func _physics_process(delta: float) -> void:
 				anim_sprite.flip_h = false
 			anim_sprite.play("idle")
 
+func spawn_damage_number(creature_position: Vector2, damage_amount: int) -> void:
+	var damage_number := DAMAGE_NUMBER_SCENE.instantiate()
+	damage_number.text = str(damage_amount)
+	damage_number.position = creature_position + Vector2(0, -150)
+	get_tree().current_scene.add_child(damage_number)
+	
 func apply_player_separation()-> void:
 	for other in get_tree().get_nodes_in_group("players"):
 		if other == self:
