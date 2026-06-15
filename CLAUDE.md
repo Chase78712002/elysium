@@ -590,6 +590,14 @@ This means the project has passed the “real second machine can join” milesto
 - In-range clicks now set `has_target = false` so the knight stands and swings instead of drifting.
 - Client-side only; no replication change.
 
+### Output O — Floating damage numbers (local-only)
+
+- New `damage_number.tscn` (`Label` root + `damage_number.gd`): a `Tween` floats it up ~80px and fades alpha to 0 over 0.6s, then `queue_free`s itself.
+- `player.gd` preloads it and calls `spawn_damage_number(creature.global_position, 1)` inside the cooldown check, so a number only pops when a hit actually lands.
+- Spawned into `get_tree().current_scene` (not parented to the creature) so it survives the creature's death/hide, doesn't ride along if the creature moves, and isn't a single reused label.
+- Local-only by design: spawned on the attacking client at click time. Note `creature.take_damage` runs on the **server** (`rpc_id(1, …)`), so a creature-owned label would animate where no one can see it — hence client-side spawn.
+- Reads as instant client-side prediction; fine for prototype, would come from server confirmation under authoritative combat later.
+
 ---
 
 ## Current Known Issues / Notes
@@ -653,12 +661,6 @@ Do not accidentally reintroduce “players shove each other around” unless the
 
 The planned order from here:
 
-### Output O — Floating damage numbers
-
-- Small number pops up at the creature or player position when damage lands.
-- Disappears after ~0.5–1 second.
-- Makes combat feel responsive without requiring new art.
-
 ### Output P — Kill counter
 
 - Simple counter in the corner: "Kills: 3"
@@ -720,4 +722,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Output O — Floating damage numbers. Outputs M (HP bar) and N (attack cooldown) are done. The next bit of feel is a small number that pops up where damage lands and fades out, making hits feel responsive without new art.
+> Output P — Kill counter. Outputs M (HP bar), N (attack cooldown), and O (floating damage numbers) are done. The next bit of session-goal feel is a simple "Kills: N" counter in the corner — per-session, no persistence needed yet.
