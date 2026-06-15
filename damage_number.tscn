@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ch3f0oqrf2007"]
+
+[ext_resource type="Script" uid="uid://dj0l20cl2xrb7" path="res://damage_number.gd" id="1_jany0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oufv8"]
+font_size = 48
+font_color = Color(1, 1, 0, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DamageNumber" type="Label" unique_id=1553250766]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "dd"
+label_settings = SubResource("LabelSettings_oufv8")
+horizontal_alignment = 1
+script = ExtResource("1_jany0")
