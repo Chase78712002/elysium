@@ -582,6 +582,14 @@ This means the project has passed the “real second machine can join” milesto
 - `player.gd` sets `hp_bar.max_value`/`value` in `_ready`, and updates `hp_bar.value` in `take_damage` and `restart`.
 - Purely client-side: no replication schema change, so no server redeploy / version-mismatch risk.
 
+### Output N — Attack cooldown
+
+- `ATTACK_COOLDOWN = 1.0s` constant and `cooldown_remaining` float in `player.gd`.
+- `_physics_process(delta)` ticks `cooldown_remaining` down every frame, above the `has_target` early-return.
+- `_input` only swings (animation + `take_damage` RPC) when `cooldown_remaining <= 0.0`, then resets it; click-spam is ignored.
+- In-range clicks now set `has_target = false` so the knight stands and swings instead of drifting.
+- Client-side only; no replication change.
+
 ---
 
 ## Current Known Issues / Notes
@@ -644,12 +652,6 @@ Do not accidentally reintroduce “players shove each other around” unless the
 ## Immediate Next Outputs
 
 The planned order from here:
-
-### Output N — Attack cooldown
-
-- Player can only attack once every ~1 second.
-- Prevents click-spam combat; makes combat feel like a rhythm.
-- Simple timer or `cooldown_remaining` float checked before dealing damage.
 
 ### Output O — Floating damage numbers
 
@@ -718,4 +720,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Output N — Attack cooldown. Output M (HP bar) is done, so combat is now visible. The next bottleneck is that attacks can be click-spammed; a ~1s cooldown turns combat into a deliberate rhythm.
+> Output O — Floating damage numbers. Outputs M (HP bar) and N (attack cooldown) are done. The next bit of feel is a small number that pops up where damage lands and fades out, making hits feel responsive without new art.
