@@ -1,8 +1,9 @@
 extends StaticBody2D
 
-const MAX_HP = 10
+const MAX_HP = 3
 const ATTACK_RANGE: float = 150.0
 const ATTACK_DAMAGE: int = 5
+const EXP_REWARD: int = 10
 var hp = MAX_HP
 var spawn_position: Vector2 = Vector2.ZERO
 
@@ -15,6 +16,12 @@ func take_damage(amount:int) -> void:
 	if hp <= 0:
 		prints(name, "is dead")
 		if multiplayer.is_server():
+			prints("awarding exp to player")
+			var killer_id = multiplayer.get_remote_sender_id()
+			for player in get_tree().get_nodes_in_group("players"):
+				if int(player.name) ==  killer_id:
+					player.add_exp.rpc_id(killer_id, EXP_REWARD)
+					break
 			respawn()
 
 func _ready() -> void:

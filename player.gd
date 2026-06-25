@@ -12,6 +12,7 @@ var cooldown_remaining: float = 0.0
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hp_bar: ProgressBar = $HUD/HPBar
+@onready var exp_label: Label = $HUD/EXPLabel
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var is_attacking: bool = false
@@ -19,6 +20,7 @@ var hp: int = MAX_HP
 var spawn_position: Vector2 = Vector2.ZERO
 var desired_velocity: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.DOWN
+var exp: int = 0
 @export var sync_velocity: Vector2 = Vector2.ZERO
 @export var player_display_name: String = ""
 
@@ -163,6 +165,12 @@ func take_damage(amount: int) -> void:
 	if hp <= 0:
 		prints(player_display_name, "is dead, restarting...")
 		restart()
+
+@rpc("any_peer", "call_local", "reliable")
+func add_exp(amount: int) -> void:
+	exp += amount
+	exp_label.text = "EXP: %d" % exp
+	prints(player_display_name, " gained ", exp, " EXP")
 
 func restart() -> void:
 	hp = MAX_HP
