@@ -223,6 +223,12 @@ radius = 208.02164
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7new"]
 bg_color = Color(0.99215686, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_f7new"]
+font_size = 45
+font_color = Color(1, 0.70666665, 0.19999999, 1)
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=121686041 groups=["players"]]
 collision_layer = 2
 script = ExtResource("1_onrkg")
@@ -270,3 +276,11 @@ offset_bottom = 87.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_f7new")
 step = 1.0
 value = 100.0
+
+[node name="EXPLabel" type="Label" parent="HUD" unique_id=427403011]
+offset_left = 20.0
+offset_top = 85.0
+offset_right = 150.0
+offset_bottom = 148.0
+text = "EXP: 0"
+label_settings = SubResource("LabelSettings_f7new")
