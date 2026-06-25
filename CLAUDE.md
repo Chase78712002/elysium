@@ -598,6 +598,15 @@ This means the project has passed the “real second machine can join” milesto
 - Local-only by design: spawned on the attacking client at click time. Note `creature.take_damage` runs on the **server** (`rpc_id(1, …)`), so a creature-owned label would animate where no one can see it — hence client-side spawn.
 - Reads as instant client-side prediction; fine for prototype, would come from server confirmation under authoritative combat later.
 
+### Output P — EXP on kill (server-authoritative)
+
+- Chosen as **EXP** (not a raw kill count) — same code cost, fits the Lineage-classic feel, and is the natural hook for future leveling. Leveling itself is explicitly deferred.
+- `creature.gd`: `EXP_REWARD = 10`. In `take_damage`, when `hp <= 0` on the server, `multiplayer.get_remote_sender_id()` identifies the killer (player nodes are named by peer id), then `player.add_exp.rpc_id(killer_id, EXP_REWARD)` awards only that peer before `respawn()`.
+- `player.gd`: `var exp`, `@rpc("any_peer","call_local","reliable") func add_exp(amount)` increments and updates `EXPLabel`. `any_peer` is required because the **server** (not the node's client-authority) sends this RPC.
+- `EXPLabel` added to `HUD` under the HP bar; authority-gated like the rest of the HUD.
+- Server-authoritative on purpose: the **client never knows creature HP** — `take_damage.rpc_id(1, …)` runs only on the server, and `call_local` does *not* fire for a targeted `rpc_id` to another peer (verified empirically). So client-side kill detection is impossible; the server is the only source of truth for the kill and the killer.
+- Touches `creature.gd`, so it required a server redeploy (RPC added, not a synced property, so no replication-schema mismatch).
+
 ---
 
 ## Current Known Issues / Notes
@@ -661,11 +670,17 @@ Do not accidentally reintroduce “players shove each other around” unless the
 
 The planned order from here:
 
-### Output P — Kill counter
+### Future — Leveling (deferred)
 
-- Simple counter in the corner: "Kills: 3"
-- Gives players something to chase in a session.
-- Even a per-session number is enough; no persistence needed yet.
+- EXP already accumulates server-side (Output P). Leveling builds on it: thresholds, what a level grants, syncing/displaying level, eventual persistence.
+- Not started yet — explicitly out of scope until the simpler polish below is done and play-tested.
+
+### Future — EXP bar instead of EXP label (deferred)
+
+- Replace the `EXPLabel` (currently "EXP: N") with a `ProgressBar` that fills toward the next level and shows a percentage.
+- Pairs naturally with Leveling: the bar's `max_value` becomes the next-level threshold, `value` is current EXP, and it visually resets each level-up.
+- Same HUD/authority-gated pattern as the HP bar; mostly a swap of `Label` → `ProgressBar` plus the threshold math from Leveling.
+- Deferred until Leveling exists (a percentage only means something once there's a "next level" target).
 
 ### After that — Polish before wider sharing
 
@@ -722,4 +737,4 @@ The current correct strategy is:
 
 The next concrete output should be:
 
-> Output P — Kill counter. Outputs M (HP bar), N (attack cooldown), and O (floating damage numbers) are done. The next bit of session-goal feel is a simple "Kills: N" counter in the corner — per-session, no persistence needed yet.
+> Polish pass before wider sharing. Outputs M–P are all done (HP bar, attack cooldown, floating damage numbers, EXP-on-kill). The combat loop is now visible, paced, responsive, and rewarding. Next is small-polish choice: hit/death sound, creature name + HP label above its head, or a second creature variant. Leveling is deferred until after a play-test.
