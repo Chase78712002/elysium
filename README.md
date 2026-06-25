@@ -135,10 +135,12 @@ If the client cannot connect:
   - Add creatures respawning after death
 - Output 18:
   - Add player HP + death/respawn
-- Output 19: WIP
+- Output 19:
   - Add creatures attacking back to reduce player HP
   - Add new attack right animation
   - Add HPBar node in view
-  - WIP... wiring up HPBar in script
+  - wiring up HPBar in script
+- Output 20:
+  - Add Exp label and logic
 
 ## Upcoming work:
