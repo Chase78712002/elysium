@@ -153,3 +153,14 @@ This means the project has passed the “real second machine can join” milesto
 - `EXPLabel` added to `HUD` under the HP bar; authority-gated like the rest of the HUD.
 - Server-authoritative on purpose: the **client never knows creature HP** — `take_damage.rpc_id(1, …)` runs only on the server, and `call_local` does *not* fire for a targeted `rpc_id` to another peer (verified empirically). So client-side kill detection is impossible; the server is the only source of truth for the kill and the killer.
 - Touches `creature.gd`, so it required a server redeploy (RPC added, not a synced property, so no replication-schema mismatch).
+
+### Output Q — Hit sound on landed attack (client-side)
+
+- Free CC0 impact sound (Kenney "Impact Sounds", `impactPunch` family) saved as `assets/audio/hit.ogg`.
+- `AudioStreamPlayer` node named `AttackSound` added as a child of the root `Player` node in `Player.tscn`, with `hit.ogg` assigned to `Stream`. Plain (non-positional) `AudioStreamPlayer` on purpose — a flat one-shot is all a top-down prototype needs when the target is always near you.
+- `player.gd`: `@onready var attack_sound: AudioStreamPlayer = $AttackSound`, and `attack_sound.play()` added as the last line of the cooldown block in `_input`, right after `spawn_damage_number(...)`.
+- Plays **only on a landed hit**: gated by the same `cooldown_remaining <= 0.0` guard as the damage RPC, so click-spam yields one thwack per 1s cooldown, never on a miss or out-of-range click.
+- Decided **impact** sound (the thwack of connecting), not a swing whoosh — impact gives combat its weight.
+- Client-side only: every player has the node, but only the local authority's `_input` runs, so each player hears only their own hits. No replication-schema change → **no server redeploy**.
+- **Known tradeoff:** the sound fires at swing *start* (click time, same hook as the damage number), so it slightly leads the visual impact frame of the `attack_right` animation. Logged as a future polish item (sync to the animation's contact frame via `anim_sprite.frame_changed`).
+- **Deferred:** sound currently lives on the player. Move it to the creature (via an RPC, which costs a redeploy) only when the second creature variant ships — that's the first moment two creatures could sound different.

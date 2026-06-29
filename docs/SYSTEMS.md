@@ -85,6 +85,7 @@ Player / CharacterBody2D        (group "players", collision_layer = 2)
   NameLabel                     (Label)
   AttackArea / Area2D           (CircleShape2D ~208 radius — see note)
     CollisionShape2D
+  AttackSound / AudioStreamPlayer  (plain/non-positional; Stream = assets/audio/hit.ogg)
   HUD / CanvasLayer             (shown only for the local authority)
     HPBar / ProgressBar         (red StyleBoxFlat fill, top-left)
     EXPLabel / Label            ("EXP: N", under the HP bar)
@@ -144,8 +145,10 @@ Attack:
   `creatures`-group collider.
 - Creature clicked and within `ATTACK_RANGE` (200): `has_target = false`, and if
   `cooldown_remaining <= 0` → start cooldown, play `attack_right`, send
-  `creature.take_damage.rpc_id(1, 1)` (1 damage, **runs on the server**), and
-  spawn a local damage number.
+  `creature.take_damage.rpc_id(1, 1)` (1 damage, **runs on the server**),
+  spawn a local damage number, and play the local hit sound (`AttackSound`).
+  Sound + damage number are client-side prediction at swing *start*, so they
+  lead the animation's visual contact frame (logged in ROADMAP).
 - Creature clicked but out of range → move toward it. Empty ground → move there.
 - Cooldown: `cooldown_remaining` ticks down in `_physics_process`; click-spam
   while on cooldown is ignored.

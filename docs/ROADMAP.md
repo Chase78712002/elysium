@@ -8,20 +8,30 @@
 
 ## Current priority
 
-> Polish pass before wider sharing. Outputs M–P are all done (HP bar, attack
-> cooldown, floating damage numbers, EXP-on-kill). The combat loop is now
-> visible, paced, responsive, and rewarding.
+> Polish pass before wider sharing. Outputs M–Q are all done (HP bar, attack
+> cooldown, floating damage numbers, EXP-on-kill, hit sound). The combat loop is
+> now visible, paced, responsive, rewarding, and audible.
 
-Next is a small-polish choice:
+Next is a small-polish choice (hit sound shipped — Output Q):
 
-- hit sound effect (free asset)
-- death sound effect
+- death sound effect (free asset)
 - creature name / HP label above creature head
 - second creature type (even just a color variant)
 
 Leveling is deferred until after a play-test.
 
 ---
+
+## Deferred — Hit sound polish (from Output Q)
+
+- **Sync sound to impact frame.** The hit sound currently fires at swing *start*
+  (click time, same hook as the damage number), so it leads the visual contact
+  frame of `attack_right`. Fix: play it on the animation's impact frame via
+  `anim_sprite.frame_changed` (or a short tuned `create_timer`). Cheap,
+  client-side, no redeploy. Polish-of-the-polish — do only if it bothers in play.
+- **Move sound to the creature.** Sound lives on the player today. Move it onto
+  the creature (an RPC, which costs a server redeploy) only when the second
+  creature variant ships — the first moment two creatures could sound different.
 
 ## Deferred — Leveling
 
