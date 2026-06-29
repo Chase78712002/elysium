@@ -13,6 +13,7 @@ var cooldown_remaining: float = 0.0
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hp_bar: ProgressBar = $HUD/HPBar
 @onready var exp_label: Label = $HUD/EXPLabel
+@onready var attack_sound: AudioStreamPlayer = $AttackSound
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var is_attacking: bool = false
@@ -77,6 +78,7 @@ func _input(event: InputEvent) -> void:
 						anim_sprite.play("attack_right")
 						clicked_creature.take_damage.rpc_id(1,1)
 						spawn_damage_number(clicked_creature.global_position, 1)
+						attack_sound.play()
 				else:
 					target_pos = clicked_creature.global_position
 					has_target = true
