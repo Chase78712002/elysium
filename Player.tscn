@@ -42,6 +42,7 @@
 [ext_resource type="Texture2D" uid="uid://dyavxjvfmrqwu" path="res://assets/knight/attack_right/attack_right_22.png" id="28_5p6yf"]
 [ext_resource type="Texture2D" uid="uid://b6jnbj8fuki76" path="res://assets/knight/attack_right/attack_right_23.png" id="29_sfhhg"]
 [ext_resource type="Texture2D" uid="uid://ch7865ckxv8tg" path="res://assets/knight/attack_right/attack_right_24.png" id="30_rgh0j"]
+[ext_resource type="AudioStream" uid="uid://blrw1fwf2sota" path="res://assets/audio/hit.ogg" id="43_ravlb"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dtqjt"]
 animations = [{
@@ -284,3 +285,6 @@ offset_right = 150.0
 offset_bottom = 148.0
 text = "EXP: 0"
 label_settings = SubResource("LabelSettings_f7new")
+
+[node name="AttackSound" type="AudioStreamPlayer" parent="." unique_id=2031968539]
+stream = ExtResource("43_ravlb")
