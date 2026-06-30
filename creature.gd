@@ -6,6 +6,7 @@ const ATTACK_DAMAGE: int = 5
 const EXP_REWARD: int = 10
 var hp = MAX_HP
 var spawn_position: Vector2 = Vector2.ZERO
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
 
 @rpc("any_peer", "call_local","reliable")
 func take_damage(amount:int) -> void:
@@ -32,6 +33,8 @@ func _ready() -> void:
 @rpc("authority","call_local","reliable")
 func set_visiblity(value: bool) -> void:
 	visible = value
+	if not value:
+		death_sound.play()
 	
 func respawn() -> void:
 	set_visiblity.rpc(false)
