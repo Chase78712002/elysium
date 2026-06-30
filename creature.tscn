@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://byxfe6ysumd4u"]
 
 [ext_resource type="Script" uid="uid://bhh6ayo6d0p05" path="res://creature.gd" id="1_fd6ru"]
+[ext_resource type="AudioStream" uid="uid://c3ooqw7ierlnu" path="res://assets/audio/death-1.mp3" id="2_nugsn"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_uxuua"]
 size = Vector2(155, 155)
@@ -16,3 +17,6 @@ texture = SubResource("PlaceholderTexture2D_uxuua")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1565513586]
 shape = SubResource("RectangleShape2D_fd6ru")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=2015917074]
+stream = ExtResource("2_nugsn")
