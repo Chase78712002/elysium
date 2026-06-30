@@ -164,3 +164,12 @@ This means the project has passed the “real second machine can join” milesto
 - Client-side only: every player has the node, but only the local authority's `_input` runs, so each player hears only their own hits. No replication-schema change → **no server redeploy**.
 - **Known tradeoff:** the sound fires at swing *start* (click time, same hook as the damage number), so it slightly leads the visual impact frame of the `attack_right` animation. Logged as a future polish item (sync to the animation's contact frame via `anim_sprite.frame_changed`).
 - **Deferred:** sound currently lives on the player. Move it to the creature (via an RPC, which costs a redeploy) only when the second creature variant ships — that's the first moment two creatures could sound different.
+
+### Output R — Death sound on creature kill (client-side)
+
+- Death `.mp3` saved as `assets/audio/death-1.mp3` (Godot 4 imports MP3 natively as `AudioStreamMP3` — no conversion needed).
+- `AudioStreamPlayer2D` node named `DeathSound` added as a child of the root `Creature` node in `creature.tscn`, with `death-1.mp3` assigned to `Stream`. **Positional (2D) on purpose:** a creature death is a shared world event, so nearby players hear it with distance falloff (vs. the hit sound, which is flat/personal on the player).
+- `creature.gd`: `@onready var death_sound: AudioStreamPlayer2D = $DeathSound`, and `death_sound.play()` inside `set_visiblity`, gated on `if not value:` — fires on the death/hide, not on the respawn (`set_visiblity(true)`).
+- Hook is **server-authoritative-aware**: the client never knows creature HP, so it can't predict death. The death moment reaches all clients via the existing `set_visiblity.rpc(false)` (the same RPC that hides the corpse), so the sound rides that.
+- **No server redeploy:** unlike the usual `creature.gd` caution (which is about synced-property/replication-schema mismatch), this adds no synced property and no new RPC, and doesn't change `set_visiblity`'s signature or `@rpc` config. It's presentation behavior in the **client's** copy of an existing handler plus a non-synced local node. Server keeps its old build; only clients need the new one. (A friend on the old build simply won't hear *their* kills until they update — harmless.)
+- No server guard needed: if not redeployed the server never runs the line; even if redeployed, `play()` on a headless server hits the dummy audio driver as a no-op.

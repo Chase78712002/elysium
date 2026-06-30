@@ -8,13 +8,12 @@
 
 ## Current priority
 
-> Polish pass before wider sharing. Outputs M–Q are all done (HP bar, attack
-> cooldown, floating damage numbers, EXP-on-kill, hit sound). The combat loop is
-> now visible, paced, responsive, rewarding, and audible.
+> Polish pass before wider sharing. Outputs M–R are all done (HP bar, attack
+> cooldown, floating damage numbers, EXP-on-kill, hit sound, death sound). The
+> combat loop is now visible, paced, responsive, rewarding, and audible.
 
-Next is a small-polish choice (hit sound shipped — Output Q):
+Next is a small-polish choice (hit + death sounds shipped — Outputs Q–R):
 
-- death sound effect (free asset)
 - creature name / HP label above creature head
 - second creature type (even just a color variant)
 

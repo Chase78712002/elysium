@@ -181,6 +181,7 @@ Scene tree:
 Creature / StaticBody2D         (group "creatures")
   Sprite2D                      (PlaceholderTexture2D, 155 × 155)
   CollisionShape2D              (RectangleShape2D, 155 × 155)
+  DeathSound / AudioStreamPlayer2D  (positional; Stream = assets/audio/death-1.mp3)
 ```
 
 Constants in `creature.gd`:
@@ -202,6 +203,9 @@ Behavior (all server-driven):
   `ATTACK_RANGE` (150) via `player.take_damage.rpc(...)`.
 - `respawn()`: `set_visiblity.rpc(false)` [sic — misspelled in code], wait 5.0s,
   reset HP and position, `set_visiblity.rpc(true)`.
+- `set_visiblity(value)` plays the positional `DeathSound` when `not value` (on
+  the death/hide, not the respawn). Client-side presentation on an existing RPC —
+  no synced-property/RPC-signature change, so **no server redeploy** required.
 
 ---
 
