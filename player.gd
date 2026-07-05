@@ -75,6 +75,7 @@ func _input(event: InputEvent) -> void:
 					if cooldown_remaining <= 0.0:
 						cooldown_remaining = ATTACK_COOLDOWN
 						is_attacking = true
+						anim_sprite.flip_h = clicked_creature.global_position.x < global_position.x 
 						anim_sprite.play("attack_right")
 						clicked_creature.take_damage.rpc_id(1,1)
 						spawn_damage_number(clicked_creature.global_position, 1)
@@ -96,7 +97,6 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		sync_velocity = Vector2.ZERO
 		if not is_attacking:
-			anim_sprite.flip_h = last_direction.x > 0
 			anim_sprite.play("idle")
 		return
 		
@@ -116,17 +116,18 @@ func _physics_process(delta: float) -> void:
 	if not is_attacking:
 		if velocity != Vector2.ZERO:
 			last_direction = velocity.normalized()
+			anim_sprite.flip_h = false
 			if abs(last_direction.x) > abs(last_direction.y):
-				anim_sprite.flip_h = last_direction.x < 0
-				anim_sprite.play("walk_right")	
+				if last_direction.x > 0:
+					anim_sprite.play("walk_right")	
+				else:
+					anim_sprite.play("walk_left")
 			else:
-				anim_sprite.flip_h = false
-				anim_sprite.play("walk_down")
+				if last_direction.y > 0:
+					anim_sprite.play("walk_down")
+				else:
+					anim_sprite.play("walk_up")
 		else:
-			if abs(last_direction.x) > abs(last_direction.y):
-				anim_sprite.flip_h = last_direction.x > 0
-			else:
-				anim_sprite.flip_h = false
 			anim_sprite.play("idle")
 
 func spawn_damage_number(creature_position: Vector2, damage_amount: int) -> void:
