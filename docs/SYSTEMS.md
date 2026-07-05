@@ -77,13 +77,13 @@ Actual scene tree:
 
 ```text
 Player / CharacterBody2D        (group "players", collision_layer = 2)
-  AnimatedSprite2D              (NOT a plain Sprite2D)
-  CollisionShape2D              (RectangleShape2D, 210 × 195)
+  AnimatedSprite2D              (NOT a plain Sprite2D; KnightSword art, scaled up)
+  CollisionShape2D              (RectangleShape2D, 180 × 160.5, pos (10,-131))
   MultiplayerSynchronizer
   NavigationAgent2D             (radius 80 — present but see note)
   Camera2D                      (enabled only for the local authority)
   NameLabel                     (Label)
-  AttackArea / Area2D           (CircleShape2D ~208 radius — see note)
+  AttackArea / Area2D           (CircleShape2D ~108 radius — vestigial, see note)
     CollisionShape2D
   AttackSound / AudioStreamPlayer  (plain/non-positional; Stream = assets/audio/hit.ogg)
   HUD / CanvasLayer             (shown only for the local authority)
@@ -113,12 +113,23 @@ Do not remove without good reason (also flagged in CLAUDE.md "Critical
 gotchas"). Only the local authority processes input, moves itself, and shows its
 Camera2D / HUD. Remote players are synced via replication.
 
-Animations (`SpriteFrames` in `Player.tscn`): `attack_poke`, `attack_right`,
-`idle`, `walk_down`, `walk_right`. The code plays `attack_right` (attack),
-`walk_right` / `walk_down` (movement, chosen by dominant axis with `flip_h`),
-and `idle`. `attack_poke` is currently **not** referenced by `player.gd`.
-`is_attacking` blocks `_physics_process` from overwriting the attack animation;
-`animation_finished` → `_on_attack_finished` returns to `idle`.
+Animations (`SpriteFrames` in `Player.tscn`): `idle`, `walk_down`, `walk_up`,
+`walk_left`, `walk_right` (all loop, 10 FPS) and `attack_right` (loop OFF, 10
+FPS). The art is the **KnightSword** pack, sliced from grid sprite sheets in
+`assets/knight_new/` (256×256 frames; the `AnimatedSprite2D` was set to
+`scale = (2, 2)`, position (5, −72), to fit the world; the CollisionShape2D was
+also adjusted to 180×160.5 at position (10, −131) to sit on the scaled body).
+The old individual PNGs in
+`assets/knight/` are left on disk as a fallback but are no longer referenced.
+
+Movement animation is chosen 4-way by dominant velocity axis (`walk_right` /
+`walk_left` / `walk_down` / `walk_up`) — real directional frames, so `flip_h`
+is **off** during movement. `flip_h` is now used **only** to face the
+right-only `attack_right` toward the clicked creature
+(`flip_h = clicked_creature.global_position.x < global_position.x`). Idle is
+front-facing only (single `idle` sheet). `is_attacking` blocks
+`_physics_process` from overwriting the attack animation; `animation_finished` →
+`_on_attack_finished` returns to `idle` (needs `attack_right` Loop OFF to fire).
 
 > **Vestigial nodes:** `NavigationAgent2D` exists (radius 80, `max_speed` set)
 > but movement uses `global_position.direction_to(target_pos)` directly — no
