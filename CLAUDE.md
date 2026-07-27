@@ -103,10 +103,6 @@ AI/pathfinding, or inventory/equipment — unless the user explicitly asks.
 
 ## Current priority
 
-> Polish pass before wider sharing. The combat loop is visible, paced,
-> responsive, and rewarding (HP bar, attack cooldown, floating damage numbers,
-> EXP-on-kill all done). Next is a small-polish choice: hit/death sound,
-> creature name + HP label above its head, or a second creature variant.
-> Leveling is deferred until after a play-test.
-
-Full next/deferred list: [`docs/ROADMAP.md`](docs/ROADMAP.md).
+> Whatever [`docs/ROADMAP.md`](docs/ROADMAP.md) says under "NOW" — that file is
+> the single source of truth for what to build next. Don't duplicate it here;
+> it goes stale.
