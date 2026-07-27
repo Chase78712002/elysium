@@ -5,23 +5,25 @@ const SPEED: float = 300.0
 const ARRIVAL_DIST: float = 8.0
 const SEPARATION_DIST: float = 150.0
 const ATTACK_RANGE: float = 200.0
-const MAX_HP: int = 100
 const ATTACK_COOLDOWN: float = 1.0
 const DAMAGE_NUMBER_SCENE := preload("res://damage_number.tscn")
 var cooldown_remaining: float = 0.0
+var max_hp: int = 100
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hp_bar: ProgressBar = $HUD/HPBar
 @onready var exp_label: Label = $HUD/EXPLabel
 @onready var attack_sound: AudioStreamPlayer = $AttackSound
+@onready var level_label: Label = $HUD/LevelLabel
 var target_pos: Vector2 = Vector2.ZERO
 var has_target: bool = false
 var is_attacking: bool = false
-var hp: int = MAX_HP
+var hp: int = max_hp
 var spawn_position: Vector2 = Vector2.ZERO
 var desired_velocity: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.DOWN
-var exp: int = 0
+var experience: int = 0
+var level: int = 1
 @export var sync_velocity: Vector2 = Vector2.ZERO
 @export var player_display_name: String = ""
 
@@ -40,7 +42,8 @@ func _ready() -> void:
 		$Camera2D.enabled = true
 		$Camera2D.make_current()
 		$HUD.visible = true
-		hp_bar.max_value = MAX_HP
+		level_label.text = "Lv %d" % level
+		hp_bar.max_value = max_hp
 		hp_bar.value = hp
 	else:
 		$Camera2D.enabled = false
@@ -171,12 +174,18 @@ func take_damage(amount: int) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func add_exp(amount: int) -> void:
-	exp += amount
-	exp_label.text = "EXP: %d" % exp
-	prints(player_display_name, " gained ", exp, " EXP")
-
+	experience += amount
+	exp_label.text = "EXP: %d" % experience
+	
+	while experience >= level * 30:
+		level += 1	
+		max_hp += 20
+		hp = max_hp
+		hp_bar.max_value = max_hp
+		hp_bar.value = hp
+		level_label.text = "Lv %d" % level
 func restart() -> void:
-	hp = MAX_HP
+	hp = max_hp
 	has_target = false
 	global_position = spawn_position
 	hp_bar.value = hp

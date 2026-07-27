@@ -609,6 +609,12 @@ font_color = Color(1, 0.70666665, 0.19999999, 1)
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_5ncpa"]
+font_size = 60
+font_color = Color(0, 1, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=121686041 groups=["players"]]
 collision_layer = 2
 script = ExtResource("1_onrkg")
@@ -650,21 +656,32 @@ shape = SubResource("CircleShape2D_kpjcp")
 [node name="HUD" type="CanvasLayer" parent="." unique_id=872324860]
 
 [node name="HPBar" type="ProgressBar" parent="HUD" unique_id=1027498839]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 420.0
-offset_bottom = 87.0
+offset_left = 192.0
+offset_top = 39.0
+offset_right = 592.0
+offset_bottom = 106.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_f7new")
 step = 1.0
 value = 100.0
+metadata/_edit_use_anchors_ = true
 
 [node name="EXPLabel" type="Label" parent="HUD" unique_id=427403011]
-offset_left = 20.0
-offset_top = 85.0
-offset_right = 150.0
-offset_bottom = 148.0
+offset_left = 194.0
+offset_top = 115.0
+offset_right = 324.0
+offset_bottom = 178.0
 text = "EXP: 0"
 label_settings = SubResource("LabelSettings_f7new")
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelLabel" type="Label" parent="HUD" unique_id=48618510]
+offset_left = 52.0
+offset_top = 115.0
+offset_right = 167.0
+offset_bottom = 198.0
+text = "Lv 1"
+label_settings = SubResource("LabelSettings_5ncpa")
+metadata/_edit_use_anchors_ = true
 
 [node name="AttackSound" type="AudioStreamPlayer" parent="." unique_id=2031968539]
 stream = ExtResource("43_ravlb")

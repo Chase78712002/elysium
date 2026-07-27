@@ -89,6 +89,7 @@ Player / CharacterBody2D        (group "players", collision_layer = 2)
   HUD / CanvasLayer             (shown only for the local authority)
     HPBar / ProgressBar         (red StyleBoxFlat fill, top-left)
     EXPLabel / Label            ("EXP: N", under the HP bar)
+    LevelLabel / Label          ("Lv N")
 ```
 
 `MultiplayerSynchronizer` replicates: `position`, `sync_velocity`,
@@ -99,8 +100,10 @@ Constants in `player.gd`:
 - `SPEED = 300`, `ARRIVAL_DIST = 8`
 - `SEPARATION_DIST = 150`
 - `ATTACK_RANGE = 200`
-- `MAX_HP = 100`
 - `ATTACK_COOLDOWN = 1.0`
+
+(`max_hp` is a **variable**, not a const — starts at 100 and grows with leveling.
+`level` starts at 1, `experience` at 0.)
 
 Authority:
 
@@ -164,15 +167,24 @@ Attack:
 - Cooldown: `cooldown_remaining` ticks down in `_physics_process`; click-spam
   while on cooldown is ignored.
 
-Player HP / EXP:
+Player HP / EXP / leveling:
 
-- `hp` starts at `MAX_HP = 100`. `take_damage`
-  (`@rpc("any_peer","call_local","reliable")`) subtracts, updates `HPBar`, and
-  on `hp <= 0` calls `restart()` (reset HP, clear target, teleport to
-  `spawn_position`).
-- `add_exp` (`@rpc("any_peer","call_local","reliable")`) increments `exp` and
-  updates `EXPLabel`. `any_peer` is required because the **server** sends it.
-  See [DECISIONS.md](DECISIONS.md) for why EXP is server-authoritative.
+- `hp` starts at `max_hp` (100, now a **variable** — leveling raises it).
+  `take_damage` (`@rpc("any_peer","call_local","reliable")`) subtracts, updates
+  `HPBar`, and on `hp <= 0` calls `restart()` (reset HP to `max_hp`, clear
+  target, teleport to `spawn_position`). Level persists through death.
+- `add_exp` (`@rpc("any_peer","call_local","reliable")`) increments `experience`
+  (renamed from `exp` to avoid shadowing GDScript's built-in `exp()`; the RPC is
+  still named `add_exp`) and updates `EXPLabel`. `any_peer` is required because
+  the **server** sends it. See [DECISIONS.md](DECISIONS.md) for why EXP is
+  server-authoritative.
+- **Leveling** lives at the end of `add_exp`: `while experience >= level * 30`,
+  then `level += 1`, `max_hp += 20`, `hp = max_hp` (heal to full), update the HP
+  bar (`max_value` **before** `value` — the bar clamps `value` to `max_value`),
+  and `LevelLabel`. Client-side, local player only, cumulative thresholds
+  (`experience` never resets). No synced property → no redeploy. Other players
+  don't see your level and the buffed HP is spoofable (accepted for now; a
+  synced level is a future one-redeploy job).
 
 Floating damage numbers (`damage_number.tscn` + `damage_number.gd`):
 

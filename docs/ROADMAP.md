@@ -28,38 +28,22 @@ the forcing function that closes this cycle of work.
 
 ---
 
-## NOW — the one depth addition: LEVELING
+## NOW — ship the playtest: fresh build + handoff note
 
-The single thing we're building. Everything else waits.
-
-When the local player's EXP crosses a threshold:
-
-- `level += 1`
-- max HP increases (~+20 per level)
-- heal to full
-- show **"Lv N"** on the HUD
-
-**Implemented CLIENT-SIDE, on the local player only, inside the existing
-`add_exp` RPC path.** Zero new synced property → zero redeploy → dodges the
-CLAUDE.md replication-schema gotcha.
-
-Why this is legit (see [DECISIONS.md](DECISIONS.md), [SYSTEMS.md](SYSTEMS.md)):
-`add_exp` already fires server → the killer's own client, already does
-`exp += reward` and updates the EXP label, and the HUD is authority-gated so
-only your own client shows your HUD. A locally-computed level is exactly as
-"real" as the EXP label already is.
-
-**Accepted caveats for a friend playtest:** other players won't see your level,
-and buffed stats aren't server-validated (spoofable). A synced level can be one
-deliberate redeploy later if it matters.
-
----
-
-## Before playtest (later, this game)
+Leveling is **done** (see [CHANGELOG.md](CHANGELOG.md) Output T) — the combat
+loop now has a payoff worth testing. The only things between here and the
+milestone playtest:
 
 - **Fresh exported Windows build.** The current build predates recent combat
-  polish (damage numbers, sounds, EXP) — friends have a stale copy.
+  polish (damage numbers, sounds, EXP, and now leveling) — friends have a stale
+  copy.
 - **Write down how 2–3 friends get and run it** (short handoff note).
+
+Then run the playtest — that's the forcing function that closes this cycle.
+
+Deploy note: leveling was client-side (no forced redeploy), but `player.gd` also
+runs on the server, so **redeploy the server + have everyone on the same fresh
+build** before/at the playtest for hygiene.
 
 ---
 
